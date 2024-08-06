@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>Back Office - Barter</title>
+  <!-- plugins:css -->
+  <link rel="stylesheet" th:href="@{/vendors/feather/feather.css}">
+  <link rel="stylesheet" th:href="@{/vendors/mdi/css/materialdesignicons.min.css}">
+  <link rel="stylesheet" th:href="@{/vendors/ti-icons/css/themify-icons.css}">
+  <link rel="stylesheet" th:href="@{/vendors/typicons/typicons.css}">
+  <link rel="stylesheet" th:href="@{/vendors/simple-line-icons/css/simple-line-icons.css}">
+  <link rel="stylesheet" th:href="@{/vendors/css/vendor.bundle.base.css}">
+  <!-- endinject -->
+  <!-- Plugin css for this page -->
+  <link rel="stylesheet" th:href="@{/vendors/datatables.net-bs4/dataTables.bootstrap4.css}">
+  <link rel="stylesheet" th:href="@{/js/select.dataTables.min.css}">
+  <!-- End plugin css for this page -->
+  <!-- inject:css -->
+  <link rel="stylesheet" th:href="@{/css/vertical-layout-light/style.css}">
+  <!-- endinject -->
+  <link rel="shortcut icon" th:href="@{/images/favicon.ico}" />
+</head>
+    <body>
+    <div class="container-scroller">
+        <div class="container-fluid page-body-wrapper full-page-wrapper">
+          <div class="content-wrapper d-flex align-items-center auth px-0">
+            <div class="row w-100 mx-0">
+              <div class="col-lg-4 mx-auto">
+                <div class="auth-form-light text-left py-5 px-4 px-sm-5">
+                  <div class="brand-logo">
+                    <img th:src="@{/images/logo_barter.png}" alt="logo">
+                  </div>
+                  <h2>Welcome !</h2>
+                  <br>
+                  <h4 class="fw-light">Sign in to continue.</h4>
+                  <form class="pt-3" th:action="@{/login}" th:object="${authRequest}" method="post">
+                    <div class="form-group">
+                      <input type="email" class="form-control form-control-lg radius" id="exampleInputEmail1" name="Email" placeholder="Email" th:field="*{email}" required>
+                    </div>
+                    <div class="form-group">
+                      <input type="password" class="form-control form-control-lg radius" id="exampleInputPassword1" name="password" th:field="*{password}" placeholder="Password">
+                    </div>
+
+                    <!-- {% if error %}
+                        <div class="alert alert-danger error">
+                            <h5>Vérifier vos identifiants</h5>
+                        </div>
+                    {% endif %} -->
+                    <div class="my-2 d-flex justify-content-between">
+                      <a href="{% url 'confirm-email' %}" class="auth-link text-black">Forgot password?</a>
+                    </div>
+                    <div class="mt-3">
+                      <button class="btn btn-primary me-2 float-end" type="submit">Sign in</button>
+                    </div>
+                    <br>
+                    <br>
+                    
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- content-wrapper ends -->
+        </div>
+        <!-- page-body-wrapper ends -->
+      </div>
+    </body>
+</html>

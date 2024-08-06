@@ -1,0 +1,274 @@
+.barter-table-blue{
+    margin-top: 10px;
+}
+
+.barter-table-blue .rang{
+    width: 10px;
+    max-width: 10px;
+}
+
+.barter-table-blue .action{
+    width: 180px;
+    max-width: 180px;
+}
+
+.barter-table-blue .action i{
+    font-size: 1.7em;
+    margin-left: 15px;
+}
+
+
+.barter-table-blue .action .view{
+    color: #414042;
+}
+
+.barter-table-blue .action .delete{
+    color: #c2003f;
+}
+
+.barter-table-blue thead{
+    background-color: #126945;
+    color: #fff;
+    text-align: center;
+}
+
+.barter-table-blue tbody{
+    text-align: center;
+}
+
+
+@font-face {
+    font-family: AdriaGrotesk-Light;
+    src: url('../fonts/AdriaGrotesk-Light.otf');
+}
+
+@font-face {
+    font-family: AdriaGrotesk-Thin;
+    src: url('../fonts/Adria\ Grotesk\ Thin.otf');
+}
+
+@font-face {
+    font-family: AdriaGrotesk-Black;
+    src: url('../fonts/AdriaGrotesk-Black.otf');
+}
+
+@font-face {
+    font-family: AdriaGrotesk-Bold;
+    src: url('../fonts/AdriaGrotesk-Bold.otf');
+}
+
+@font-face {
+    font-family: AdriaGrotesk-ExtraLight;
+    src: url('../fonts/AdriaGrotesk-ExtraLight.otf');
+}
+
+@font-face {
+    font-family: AdriaGrotesk-Medium;
+    src: url('../fonts/AdriaGrotesk-Medium.otf');
+}
+
+@font-face {
+    font-family: AdriaGrotesk-Regular;
+    src: url('../fonts/AdriaGrotesk-Regular.otf');
+}
+
+@font-face {
+    font-family: barterAdriaGrotesk-Regular;
+    src: url('../fonts/barterAdriaGrotesk-Regular.ttf');
+}
+
+h1{
+    font-family: AdriaGrotesk-Bold;
+}
+
+h2{
+    font-family: AdriaGrotesk-Medium;
+}
+
+h3{
+    font-family: AdriaGrotesk-Regular;
+}
+
+.btn-cramoisie{
+    border: none;
+    background-color:#43e5a0;
+    color: #fff;
+    text-transform: uppercase;
+    font-family: AdriaGrotesk-Light;
+}
+
+.btn-gray{
+    border: none;
+    background-color:#414042;
+    color: #fff;
+    text-transform: uppercase;
+    font-family: AdriaGrotesk-Light;
+}
+
+.btn-fume{
+    border: none;
+    background-color:#c0cad1;
+    color: #fff;
+    text-transform: uppercase;
+    font-family: AdriaGrotesk-Light;
+}
+
+.btn-blanche{
+    border: none;
+    background-color:#fff;
+    color: #414042;
+    text-transform: uppercase;
+    font-family: AdriaGrotesk-Light;
+}
+
+
+.btn-gris-blanche{
+    border: none;
+    background-color:#f6f6f6;
+    color: #414042;
+    text-transform: uppercase;
+    font-family: AdriaGrotesk-Light;
+}
+
+.label-form{
+    margin-top: 7px;
+}
+
+.container-article{
+    height: auto;
+    /* max-height: 180px; */
+    margin: 10px;
+    /* overflow: scroll; */
+}
+
+.article-image{
+    border: 1px solid;
+    height: 100%;
+}
+
+.titre{
+    font: 18px AdriaGrotesk-Bold;
+}
+
+.titre a{
+    color: #414042;
+}
+
+.texte{
+    font : 14px AdriaGrotesk-Light;
+}
+
+.lien{
+    font : 12px AdriaGrotesk-Light;
+}
+
+.categorie{
+    padding: 15px;
+}
+.categorie .titre{
+    font: 24px AdriaGrotesk-Black;
+    color: #c2003f;
+}
+.categorie i{
+    font-size: 20px;
+    cursor: pointer;
+}
+
+.sous-categorie{
+    
+    padding: 15px;
+}
+
+.sous-categorie .titre{
+    font: 20px AdriaGrotesk-Black;
+    color: #43e5a0;
+}
+
+.sous-categorie i{
+    font-size: 20px;
+    cursor: pointer;
+}
+
+.document-item{
+    min-height: 50px;
+    border: .1px solid;
+    border-radius: 3px;
+    margin-left: 25px;
+    margin-right: 25px;
+    margin-top: 20px;
+    background-color: #fff;
+    border-color: #7e7a7a;
+    height: 20px;
+    overflow:hidden;
+}
+
+.document-container{
+    margin-left: -60px;
+    padding: 5px;
+}
+
+.icon {
+    font-size: 30px;
+    color: #c2003f;
+    margin-left: -20px;
+    margin-top: 7px;
+
+}
+
+.nom-fichier{
+    margin-top: 5px;
+}
+
+.nom-fichier a{
+   text-decoration: none;
+   color: black;
+}
+
+.container-article .menu-action{
+    margin-right: -1950px;
+    margin-top: 5px;
+}
+
+.container-article .menu-action i{
+    font-size: 25px;
+    cursor: pointer;
+}
+
+.menu-drop i{
+    font-size: 18px;
+}
+
+.menu-drop .item-delete{
+    color: #43e5a0;
+}
+
+.menu-action{
+    display: none;
+}
+
+.categorie:hover .menu-action{
+    display: inline;
+}
+
+.sous-categorie:hover .menu-action{
+    display: inline;
+}
+
+.container-article:hover .menu-action{
+    display: inline;
+}
+
+.check{
+    margin-right: -1950px;
+    margin-top: 5px;
+}
+
+.check input{
+    width: 20px;
+    height: 20px;
+}
+
+.btn-primary{
+    color: #fff !important;
+    font-size: 16px !important;
+}
