@@ -36,6 +36,7 @@ public class AuthController {
 			return "redirect:/categories";
 		}catch(BadRequestException | InternalServerException e) {
 			model.addAttribute("error", e.getMessage());
+			System.out.println(e.getMessage());
 			return "login";
 		}
 		

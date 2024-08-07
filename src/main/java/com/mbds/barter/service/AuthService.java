@@ -25,7 +25,7 @@ public class AuthService {
 	String path = "http://localhost:3000/api/auth/";
 	
 	public AuthResponse login(AuthRequest authRequest) {
-		String endPoint = path + "login/";
+		String endPoint = path + "sign-in/";
 		
 		HttpHeaders headers = new HttpHeaders();
 		headers.set("Content-Type", "application/json");
