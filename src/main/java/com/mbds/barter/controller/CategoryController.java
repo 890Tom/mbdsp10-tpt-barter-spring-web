@@ -96,6 +96,17 @@ public class CategoryController {
         } 
 	}
 	
+	@GetMapping("/categories/delete/{id}")
+	public String deleteCategorie(@PathVariable("id") int id, Model model, HttpSession session) {
+		try {
+			categoryService.deleteCategory(session, id);
+			return "redirect:/categories";
+		} catch (Exception e) {
+            model.addAttribute("error", e.getMessage());
+            return "redirect:/login"; 
+        } 
+	}
+	
 	@GetMapping("/reports")
     public String getReports(Model model, HttpSession session) {
         try {

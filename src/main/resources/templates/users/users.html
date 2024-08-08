@@ -60,7 +60,7 @@
                                                                     class="d-sm-flex justify-content-between align-items-start">
                                                                     <div>
                                                                         <h3 class="card-title card-title-dash">
-                                                                            Catégories</h3>
+                                                                            Users</h3>
                                                                         <!-- <p class="card-subtitle card-subtitle-dash">You
                                                                             have 50+ new requests</p> -->
                                                                     </div>
@@ -70,7 +70,7 @@
                                                                                 class="btn btn-primary btn-lg text-white mb-0 me-0"
                                                                                 type="button"><i
                                                                                     class="mdi mdi-plus"></i>Ajouter
-                                                                                une catégorie</button>
+                                                                                un utilisateur</button>
                                                                         </a>
                                                                     </div>
                                                                 </div>
@@ -80,45 +80,29 @@
                                                                         <thead>
                                                                             <tr>
                                                                                 <td scope="col rang">ID</td>
+																				<td scope="col">Email</td>
                                                                                 <td scope="col">Nom</td>
                                                                                 <td scope="col">#</td>
                                                                             </tr>
                                                                         </thead>
                                                                         <tbody>
-                                                                            <tr th:each="category : ${categories}">
-                                                                                <td class="rang" th:text="${category.id}"></td>
-                                                                                <td th:text="${category.title}"></td>
+                                                                            <tr th:each="user : ${users}">
+                                                                                <td class="rang" th:text="${user.id}"></td>
+                                                                                <td th:text="${user.email}"></td>
+																				<td th:text="${user.name}"></td>
                                                                                 <td class="action">
-                                                                                    <a th:href="@{/categories/detail/{id}(id=${category.id})}"><i
+                                                                                    <a href="#"><i
                                                                                             class="mdi mdi-eye view"></i></a>
-																							<a th:href="@{/categories/update/{id}(id=${category.id})}"><i class="mdi mdi-pencil view"></i></a>		
-                                                                                    <a th:href="@{/categories/delete/{id}(id=${category.id})}"><i
+																					<a href="#"><i
+																					        class="mdi mdi-pencil view"></i></a>
+                                                                                    <a href="#"><i
                                                                                             class="mdi mdi-delete delete"></i></a>
                                                                                 </td>
 																				
 																				
                                                                             </tr>
                                                                         </tbody>
-                                                                    </table>
-																	
-																	<!-- Modal -->
-																	<div th:each="category : ${categories}" class="modal fade" th:id="'deletecat' + ${category.id}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-																        <div class="modal-dialog modal-dialog-centered">
-																            <div class="modal-content">
-																                <div class="modal-header">
-																                    <h1 class="modal-title fs-5" id="exampleModalLabel">Attention</h1>
-																                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-																                </div>
-																                <div class="modal-body">
-																                    Êtes-vous sûr de vouloir supprimer la catégorie : <span th:text="${category.title}"></span> ?
-																                </div>
-																                <div class="modal-footer">
-																                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
-																                    <a th:href="@{|/delete-categorie/${category.id}|}"><button type="button" class="btn btn-primary">Supprimer</button></a>
-																                </div>
-																            </div>
-																        </div>
-																    </div>
+                                                                    
                                                                 </div>
                                                             </div>
                                                         </div>
