@@ -24,8 +24,7 @@ public class CategoryController {
 	@Autowired
     private CategoryService categoryService;
 	
-	@Autowired
-    private ReportService reportService;
+	
 	
 	@GetMapping("/categories")
     public String getCategories(Model model, HttpSession session) {
@@ -107,18 +106,5 @@ public class CategoryController {
         } 
 	}
 	
-	@GetMapping("/reports")
-    public String getReports(Model model, HttpSession session) {
-        try {
-        	
-            List<Report> reports = reportService.getAllReports(session);
-            model.addAttribute("reports", reports);
-            System.out.println(reports.size());
-            return "homepage";
-        } catch (InvalidTokenException e) {
-            model.addAttribute("error", e.getMessage());
-            System.out.println(e.getMessage());
-            return "homepage"; 
-        } 
-    }
+	
 }

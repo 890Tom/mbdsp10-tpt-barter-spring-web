@@ -2,8 +2,11 @@ package com.mbds.barter.model;
 
 import java.time.LocalDateTime;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class Report {
 	String id;
+	@JsonProperty("usermakereport")
 	UserReport userMakeReport;
 	UserReport userReport;
 	ObjectReport objetReport;
