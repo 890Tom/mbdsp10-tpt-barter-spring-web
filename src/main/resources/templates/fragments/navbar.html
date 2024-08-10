@@ -206,55 +206,62 @@
         </div>
     </div>
 	<!-- partial:partials/_sidebar.html -->
-	            <nav class="sidebar sidebar-offcanvas" id="sidebar">
-	                <ul class="nav">
-	                  <li class="nav-item">
-	                    <a class="nav-link" href="index.html">
-	                      <i class="mdi mdi-chart-bar menu-icon"></i>
-	                      <span class="menu-title">Dashboard</span>
-	                    </a>
-	                  </li>
-	                  <li class="nav-item nav-category">Barter</li>
-	                  <li class="nav-item">
-	                    <a class="nav-link" href="./article.html">
-	                      <i class="menu-icon mdi mdi-content-paste"></i>
-	                      <span class="menu-title">Objects</span>
-	                    </a>
-	                  </li>
-	                  <li class="nav-item">
-	                    <a class="nav-link" href="categorie.html">
-	                      <i class="menu-icon mdi mdi-table-large"></i>
-	                      <span class="menu-title">Catégories</span>
-	                    </a>
-	                  </li>
-	                  
-	                  <!-- <li class="nav-item nav-category">Curation</li> -->
-	                  <li class="nav-item">
-	                    <a class="nav-link" href="historique.html">
-	                      <i class="menu-icon mdi mdi-calendar-check"></i>
-	                      <span class="menu-title">Signalements</span>
-	                    </a>
-	                  </li>
-	                  <li class="nav-item">
-	                    <a class="nav-link" href="utilisateur.html">
-	                      <i class="menu-icon mdi mdi-account-multiple"></i>
-	                      <span class=" menu-title">Utilisateurs</span>
-	                    </a>
-	                  </li>
-	                  <li class="nav-item nav-category">Compte</li>
-	                  <li class="nav-item">
-	                    <a class="nav-link" href="./profile.html">
-	                      <i class="menu-icon mdi mdi-account-key"></i>
-	                      <span class=" menu-title">Profil</span>
-	                    </a>
-	                  </li>
-	                  <li class="nav-item">
-	                    <a class="nav-link" href="#">
-	                      <i class="menu-icon mdi mdi-exit-to-app"></i>
-	                      <span class=" menu-title">Se déconnecter</span>
-	                    </a>
-	                  </li>
-	                </ul>
-	              </nav>
+    <nav class="sidebar sidebar-offcanvas" id="sidebar">
+        <ul class="nav">
+          <li class="nav-item">
+            <a class="nav-link" href="index.html">
+              <i class="mdi mdi-chart-bar menu-icon"></i>
+              <span class="menu-title">Dashboard</span>
+            </a>
+          </li>
+          <li class="nav-item nav-category">Barter</li>
+          <li class="nav-item">
+            <a class="nav-link" href="./article.html">
+              <i class="menu-icon mdi mdi-content-paste"></i>
+              <span class="menu-title">Posts</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" th:href="@{/categories}">
+              <i class="menu-icon mdi mdi-table-large"></i>
+              <span class="menu-title">Catégories</span>
+            </a>
+          </li>
+		  <li class="nav-item">
+            <a class="nav-link" th:href="@{/users}">
+              <i class="menu-icon mdi mdi-account-multiple"></i>
+              <span class=" menu-title">Utilisateurs</span>
+            </a>
+          </li>
+          
+          <li class="nav-item nav-category">Signalements</li>
+          <li class="nav-item">
+            <a class="nav-link" th:href="@{/reports/users}">
+              <i class="menu-icon mdi mdi-account"></i>
+              <span class="menu-title">Utilisateurs</span>
+            </a>
+          </li>
+		  <li class="nav-item">
+            <a class="nav-link" th:href="@{/reports/objects}">
+              <i class="menu-icon mdi mdi-access-point-network"></i>
+              <span class="menu-title">Objects</span>
+            </a>
+          </li>
+          
+          <li class="nav-item nav-category">Compte</li>
+          <li class="nav-item">
+            <a class="nav-link" href="./profile.html">
+              <i class="menu-icon mdi mdi-account-key"></i>
+              <span class=" menu-title">Profil</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" th:href="@{/logout}">
+              <i class="menu-icon mdi mdi-exit-to-app"></i>
+              <span class=" menu-title">Se déconnecter</span>
+            </a>
+          </li>
+        </ul>
+      </nav>
 	</div>
 </body>

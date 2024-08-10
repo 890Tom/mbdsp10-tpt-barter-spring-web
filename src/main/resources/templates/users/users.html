@@ -91,18 +91,15 @@
                                                                                 <td th:text="${user.email}"></td>
 																				<td th:text="${user.name}"></td>
                                                                                 <td class="action">
-                                                                                    <a href="#"><i
+                                                                                    <a th:href="@{/users/detail/{id}(id=${user.id})}"><i
                                                                                             class="mdi mdi-eye view"></i></a>
 																					<a href="#"><i
 																					        class="mdi mdi-pencil view"></i></a>
-                                                                                    <a href="#"><i
+                                                                                    <a th:href="@{/users/delete/{id}(id=${user.id})}"><i
                                                                                             class="mdi mdi-delete delete"></i></a>
                                                                                 </td>
-																				
-																				
                                                                             </tr>
                                                                         </tbody>
-                                                                    
                                                                 </div>
                                                             </div>
                                                         </div>
