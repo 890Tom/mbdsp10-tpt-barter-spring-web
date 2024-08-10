@@ -30,7 +30,7 @@ public class ReportService {
 	
 	String path = "http://localhost:3000/api/reports/";
 	
-	public List<Report> getAllUsersReports(HttpSession session) {
+	public List<Report> getAllUsersReports(HttpSession session, String statut) {
 	    AuthResponse authResponse = (AuthResponse) session.getAttribute("authResponse");
 
 	    if (authResponse == null) {
@@ -43,10 +43,14 @@ public class ReportService {
 	        headers.set("Content-Type", "application/json");
 	        HttpEntity<String> entity = new HttpEntity<>(headers);
 
-	        String reportsPath = path + "?type=user"; 
+	        StringBuilder reportsPath = new StringBuilder(path).append("?type=user");
+	        
+	        if (statut != null && !statut.isEmpty()) {
+	            reportsPath.append("&statut=").append(statut);
+	        }
 
 	        ResponseEntity<Report[]> response = restTemplate.exchange(
-	            reportsPath,
+	            reportsPath.toString(),
 	            HttpMethod.GET,
 	            entity,
 	            Report[].class
@@ -67,7 +71,7 @@ public class ReportService {
 	    }
 	}
 	
-	public List<Report> getAllObjectsReports(HttpSession session) {
+	public List<Report> getAllObjectsReports(HttpSession session, String statut) {
 	    AuthResponse authResponse = (AuthResponse) session.getAttribute("authResponse");
 
 	    if (authResponse == null) {
@@ -80,10 +84,14 @@ public class ReportService {
 	        headers.set("Content-Type", "application/json");
 	        HttpEntity<String> entity = new HttpEntity<>(headers);
 
-	        String reportsPath = path + "?type=post"; 
+	        StringBuilder reportsPath = new StringBuilder(path).append("?type=post");
+	        
+	        if (statut != null && !statut.isEmpty()) {
+	            reportsPath.append("&statut=").append(statut);
+	        }
 
 	        ResponseEntity<Report[]> response = restTemplate.exchange(
-	            reportsPath,
+	            reportsPath.toString(),
 	            HttpMethod.GET,
 	            entity,
 	            Report[].class

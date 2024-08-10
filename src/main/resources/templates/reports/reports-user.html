@@ -66,6 +66,23 @@
                                                                     </div>
                                                                     
                                                                 </div>
+																<form class="forms-sample" method="GET" th:action="@{/reports/users}">
+			                                                        <div class="row">
+			                                                            <div class="col-md-3">
+			                                                                <div class="form-group row pt-4">
+			                                                                    <label for="statut" class="col-sm-2">Statut</label>
+																				<div class="col-sm-9">
+																					<select class="form-control" id="statut" name="statut" onchange="this.form.submit()">
+																						<option value="" th:selected="${selectedStatus == null}" >All</option>
+																						<option value="pending" th:selected="${selectedStatus == 'pending'}">Pending</option>
+																						<option value="accepted" th:selected="${selectedStatus == 'accepted'}">Accepted</option>
+																						<option value="rejected" th:selected="${selectedStatus == 'rejected'}">Rejected</option>
+																				    </select>
+																				</div>
+			                                                                  </div>
+			                                                            </div>
+			                                                          </div>
+			                                                    </form>
                                                                 <div class="table-responsive  mt-1">
                                                                     <table
                                                                         class="table table-striped table-hover barter-table-blue">

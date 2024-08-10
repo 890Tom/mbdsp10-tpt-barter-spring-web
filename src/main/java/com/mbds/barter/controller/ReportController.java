@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.mbds.barter.exception.InvalidTokenException;
 import com.mbds.barter.model.Category;
@@ -21,11 +22,11 @@ public class ReportController {
     private ReportService reportService;
 	
 	@GetMapping("/reports/users")
-    public String getUsersReports(Model model, HttpSession session) {
+    public String getUsersReports(Model model, HttpSession session, @RequestParam(value = "statut", required = false) String statut) {
         try {
-            List<Report> reports = reportService.getAllUsersReports(session);
+            List<Report> reports = reportService.getAllUsersReports(session, statut);
             model.addAttribute("reports", reports);
-            System.out.println(reports.get(0).getId());
+            model.addAttribute("selectedStatus", statut);
             return "reports/reports-user";
         } catch (InvalidTokenException e) {
             model.addAttribute("error", e.getMessage());
@@ -35,11 +36,11 @@ public class ReportController {
     }
 	
 	@GetMapping("/reports/objects")
-    public String getObjectsReports(Model model, HttpSession session) {
+    public String getObjectsReports(Model model, HttpSession session, @RequestParam(value = "statut", required = false) String statut) {
         try {
-            List<Report> reports = reportService.getAllObjectsReports(session);
+            List<Report> reports = reportService.getAllObjectsReports(session, statut);
             model.addAttribute("reports", reports);
-            System.out.println(reports.get(0).getId());
+            model.addAttribute("selectedStatus", statut);
             return "reports/reports-object";
         } catch (InvalidTokenException e) {
             model.addAttribute("error", e.getMessage());
