@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class Report {
+	@JsonProperty("_id")
 	String id;
 	@JsonProperty("usermakereport")
 	UserReport userMakeReport;
