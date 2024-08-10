@@ -44,6 +44,18 @@ public class UserController {
         } 
 	}
 	
+	@GetMapping("/profil")
+	public String myProfil(Model model, HttpSession session) {
+		try {
+			User userToView = userService.getProfile(session);
+			model.addAttribute("user", userToView);
+			return "users/detail-user";
+		} catch (Exception e) {
+            model.addAttribute("error", e.getMessage());
+            return "redirect:/login"; 
+        } 
+	}
+	
 	@GetMapping("/users/delete/{id}")
 	public String deleteUser(@PathVariable("id") int id, Model model, HttpSession session) {
 		try {

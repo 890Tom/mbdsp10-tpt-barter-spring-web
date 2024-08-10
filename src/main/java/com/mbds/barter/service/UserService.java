@@ -103,6 +103,16 @@ public class UserService {
 	    }
 	}
 	
+	public User getProfile(HttpSession session) {
+		AuthResponse authResponse = (AuthResponse) session.getAttribute("authResponse");
+
+	    if (authResponse == null) {
+	        throw new InvalidTokenException("You are not logged in. Please log in first.");
+	    }
+	    
+	    return authResponse.getUser();
+	}
+	
 	public void deleteUser(HttpSession session, int userId) {
 	    AuthResponse authResponse = (AuthResponse) session.getAttribute("authResponse");
 
