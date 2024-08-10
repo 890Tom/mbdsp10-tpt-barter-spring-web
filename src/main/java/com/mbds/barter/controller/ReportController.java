@@ -39,7 +39,7 @@ public class ReportController {
         try {
             List<Report> reports = reportService.getAllObjectsReports(session);
             model.addAttribute("reports", reports);
-            System.out.println(reports.get(0).getUserMakeReport());
+            System.out.println(reports.get(0).getId());
             return "reports/reports-object";
         } catch (InvalidTokenException e) {
             model.addAttribute("error", e.getMessage());
@@ -54,6 +54,30 @@ public class ReportController {
 			Report reportToView = reportService.getReportById(session, id);
 			model.addAttribute("report", reportToView);
 			return "reports/detail-report";
+		} catch (Exception e) {
+            model.addAttribute("error", e.getMessage());
+            e.printStackTrace();
+            return "redirect:/login"; 
+        } 
+	}
+	
+	@GetMapping("/reports/approve/{id}")
+	public String approveReport(@PathVariable("id") String id, Model model, HttpSession session) {
+		try {
+			Report reportToView = reportService.approveReport(session, id);
+			return "redirect:/reports/detail/" + reportToView.getId();
+		} catch (Exception e) {
+            model.addAttribute("error", e.getMessage());
+            e.printStackTrace();
+            return "redirect:/login"; 
+        } 
+	}
+	
+	@GetMapping("/reports/reject/{id}")
+	public String rejectReport(@PathVariable("id") String id, Model model, HttpSession session) {
+		try {
+			Report reportToView = reportService.rejectReport(session, id);
+			return "redirect:/reports/detail/" + reportToView.getId();
 		} catch (Exception e) {
             model.addAttribute("error", e.getMessage());
             e.printStackTrace();

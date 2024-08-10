@@ -142,4 +142,92 @@ public class ReportService {
 	        throw new InternalServerException("An unexpected error occurred");
 	    }
 	}
+	
+	public Report approveReport(HttpSession session, String reportId) {
+	    AuthResponse authResponse = (AuthResponse) session.getAttribute("authResponse");
+
+	    if (authResponse == null) {
+	        throw new InvalidTokenException("You are not logged in. Please log in first.");
+	    }
+
+	    try {
+	    	Report updatedReport =this.getReportById(session, reportId);
+	    	updatedReport.setStatut("accepted");
+	    	
+	        HttpHeaders headers = new HttpHeaders();
+	        headers.set("x-auth-token", authResponse.getToken());
+	        headers.set("Content-Type", "application/json");
+	        HttpEntity<Report> entity = new HttpEntity<>(updatedReport, headers);
+
+	        // Construire l'URL avec l'ID du signalement à mettre à jour
+	        String url = path + "/" + reportId;
+
+	        // Effectuer la requête PUT pour mettre à jour le signalement
+	        ResponseEntity<Report> response = restTemplate.exchange(
+	            url,
+	            HttpMethod.PUT,
+	            entity,
+	            Report.class
+	        );
+	        
+	        return response.getBody();
+	    } catch (HttpClientErrorException.Unauthorized e) {
+	        throw new InvalidTokenException("Invalid token provided.");
+	    } catch (HttpClientErrorException e) {
+	        if (e.getStatusCode() == HttpStatus.BAD_REQUEST) {
+	            throw new BadRequestException("Invalid data provided");
+	        } else if (e.getStatusCode() == HttpStatus.NOT_FOUND) {
+	            throw new InternalServerException("Category not found");
+	        }
+	        throw new InternalServerException("An error occurred while processing the request");
+	    } catch (HttpServerErrorException e) {
+	        throw new InternalServerException("Internal server error, please try again later");
+	    } catch (Exception e) {
+	        throw new InternalServerException("An unexpected error occurred");
+	    }
+	}
+	
+	public Report rejectReport(HttpSession session, String reportId) {
+	    AuthResponse authResponse = (AuthResponse) session.getAttribute("authResponse");
+
+	    if (authResponse == null) {
+	        throw new InvalidTokenException("You are not logged in. Please log in first.");
+	    }
+
+	    try {
+	    	Report updatedReport =this.getReportById(session, reportId);
+	    	updatedReport.setStatut("rejected");
+	    	
+	        HttpHeaders headers = new HttpHeaders();
+	        headers.set("x-auth-token", authResponse.getToken());
+	        headers.set("Content-Type", "application/json");
+	        HttpEntity<Report> entity = new HttpEntity<>(updatedReport, headers);
+
+	        // Construire l'URL avec l'ID du signalement à mettre à jour
+	        String url = path + "/" + reportId;
+
+	        // Effectuer la requête PUT pour mettre à jour le signalement
+	        ResponseEntity<Report> response = restTemplate.exchange(
+	            url,
+	            HttpMethod.PUT,
+	            entity,
+	            Report.class
+	        );
+	        
+	        return response.getBody();
+	    } catch (HttpClientErrorException.Unauthorized e) {
+	        throw new InvalidTokenException("Invalid token provided.");
+	    } catch (HttpClientErrorException e) {
+	        if (e.getStatusCode() == HttpStatus.BAD_REQUEST) {
+	            throw new BadRequestException("Invalid data provided");
+	        } else if (e.getStatusCode() == HttpStatus.NOT_FOUND) {
+	            throw new InternalServerException("Category not found");
+	        }
+	        throw new InternalServerException("An error occurred while processing the request");
+	    } catch (HttpServerErrorException e) {
+	        throw new InternalServerException("Internal server error, please try again later");
+	    } catch (Exception e) {
+	        throw new InternalServerException("An unexpected error occurred");
+	    }
+	}
 }
