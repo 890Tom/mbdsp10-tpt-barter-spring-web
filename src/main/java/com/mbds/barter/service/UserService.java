@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -20,6 +21,7 @@ import com.mbds.barter.exception.InvalidTokenException;
 import com.mbds.barter.model.Category;
 import com.mbds.barter.model.User;
 import com.mbds.barter.response.AuthResponse;
+import com.mbds.barter.response.PaginatedResponse;
 
 import jakarta.servlet.http.HttpSession;
 
@@ -32,7 +34,7 @@ public class UserService {
 	
 	String pathCreate = "http://localhost:3000/api/auth/register/";
 	
-	public List<User> getAllUser(HttpSession session){
+	public PaginatedResponse<User> getAllUser(HttpSession session, int page, int limit){
 		AuthResponse authResponse = (AuthResponse) session.getAttribute("authResponse");
 	
 		if(authResponse == null) {
@@ -44,15 +46,17 @@ public class UserService {
             headers.set("x-auth-token", authResponse.getToken());
             headers.set("Content-Type", "application/json");
             HttpEntity<String> entity = new HttpEntity<>(headers);
+            
+            String pathWithPagination = String.format("%sadmin/?page=%d&limit=%d", path, page, limit);
 
-            ResponseEntity<User[]> response = restTemplate.exchange(
-            	path,
+            ResponseEntity<PaginatedResponse<User>> response = restTemplate.exchange(
+            	pathWithPagination,
                 HttpMethod.GET,
                 entity,
-                User[].class
+                new ParameterizedTypeReference<PaginatedResponse<User>>() {}
             );
 
-            return Arrays.asList(response.getBody());
+            return response.getBody();
         } catch (HttpClientErrorException.Unauthorized e) {
             throw new InvalidTokenException("Invalid token provided.");
         } catch (HttpClientErrorException e) {

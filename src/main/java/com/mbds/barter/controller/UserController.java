@@ -9,9 +9,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.mbds.barter.model.Category;
 import com.mbds.barter.model.User;
+import com.mbds.barter.response.PaginatedResponse;
 import com.mbds.barter.service.RoleService;
 import com.mbds.barter.service.UserService;
 
@@ -27,10 +29,12 @@ public class UserController {
 	private RoleService roleService;	
 	
 	@GetMapping("/users")
-    public String getUsers(Model model, HttpSession session) {
+    public String getUsers(@RequestParam(defaultValue = "1") int page,
+            @RequestParam(defaultValue = "10") int limit,Model model, HttpSession session) {
         try {
-			List<User> users = userService.getAllUser(session);
-			model.addAttribute("users", users);
+        	PaginatedResponse<User> users = userService.getAllUser(session, page, limit);
+			model.addAttribute("users", users.getData());
+			model.addAttribute("pagination", users.getMeta());
             return "users/users";
         } catch (Exception e) {
             model.addAttribute("error", e.getMessage());

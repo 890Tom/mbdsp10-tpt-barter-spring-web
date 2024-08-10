@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -20,6 +21,7 @@ import com.mbds.barter.exception.InvalidTokenException;
 import com.mbds.barter.model.Category;
 import com.mbds.barter.model.Report;
 import com.mbds.barter.response.AuthResponse;
+import com.mbds.barter.response.PaginatedResponse;
 
 import jakarta.servlet.http.HttpSession;
 
@@ -30,7 +32,7 @@ public class ReportService {
 	
 	String path = "http://localhost:3000/api/reports/";
 	
-	public List<Report> getAllUsersReports(HttpSession session, String statut) {
+	public PaginatedResponse<Report> getAllUsersReports(HttpSession session, String statut, int page, int limit) {
 	    AuthResponse authResponse = (AuthResponse) session.getAttribute("authResponse");
 
 	    if (authResponse == null) {
@@ -43,20 +45,22 @@ public class ReportService {
 	        headers.set("Content-Type", "application/json");
 	        HttpEntity<String> entity = new HttpEntity<>(headers);
 
-	        StringBuilder reportsPath = new StringBuilder(path).append("?type=user");
+	        StringBuilder reportsPath = new StringBuilder(path).append("admin/?type=user");
 	        
 	        if (statut != null && !statut.isEmpty()) {
 	            reportsPath.append("&statut=").append(statut);
 	        }
+	        
+	        reportsPath.append("&page=").append(page).append("&limit=").append(limit);
 
-	        ResponseEntity<Report[]> response = restTemplate.exchange(
+	        ResponseEntity<PaginatedResponse<Report>> response = restTemplate.exchange(
 	            reportsPath.toString(),
 	            HttpMethod.GET,
 	            entity,
-	            Report[].class
+	            new ParameterizedTypeReference<PaginatedResponse<Report>>() {}
 	        );
 
-	        return Arrays.asList(response.getBody());
+	        return response.getBody();
 	    } catch (HttpClientErrorException.Unauthorized e) {
 	        throw new InvalidTokenException("Invalid token provided.");
 	    } catch (HttpClientErrorException e) {
@@ -67,11 +71,12 @@ public class ReportService {
 	    } catch (HttpServerErrorException e) {
 	        throw new InternalServerException("Internal server error, please try again later");
 	    } catch (Exception e) {
+	    	e.printStackTrace();
 	        throw new InternalServerException("An unexpected error occurred");
 	    }
 	}
 	
-	public List<Report> getAllObjectsReports(HttpSession session, String statut) {
+	public PaginatedResponse<Report> getAllObjectsReports(HttpSession session, String statut, int page, int limit) {
 	    AuthResponse authResponse = (AuthResponse) session.getAttribute("authResponse");
 
 	    if (authResponse == null) {
@@ -84,20 +89,22 @@ public class ReportService {
 	        headers.set("Content-Type", "application/json");
 	        HttpEntity<String> entity = new HttpEntity<>(headers);
 
-	        StringBuilder reportsPath = new StringBuilder(path).append("?type=post");
+	        StringBuilder reportsPath = new StringBuilder(path).append("admin/?type=post");
 	        
 	        if (statut != null && !statut.isEmpty()) {
 	            reportsPath.append("&statut=").append(statut);
 	        }
+	        
+	        reportsPath.append("&page=").append(page).append("&limit=").append(limit);
 
-	        ResponseEntity<Report[]> response = restTemplate.exchange(
+	        ResponseEntity<PaginatedResponse<Report>> response = restTemplate.exchange(
 	            reportsPath.toString(),
 	            HttpMethod.GET,
 	            entity,
-	            Report[].class
+	            new ParameterizedTypeReference<PaginatedResponse<Report>>() {}
 	        );
 
-	        return Arrays.asList(response.getBody());
+	        return response.getBody();
 	    } catch (HttpClientErrorException.Unauthorized e) {
 	        throw new InvalidTokenException("Invalid token provided.");
 	    } catch (HttpClientErrorException e) {

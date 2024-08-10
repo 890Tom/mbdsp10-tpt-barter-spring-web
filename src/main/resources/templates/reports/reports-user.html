@@ -105,6 +105,32 @@
                                                                             </tr>
                                                                         </tbody>
                                                                     </table>
+																	<!-- Pagination Controls -->
+	                                                                <div class="pagination mt-3">
+	                                                                    <ul class="pagination">
+	                                                                        <li th:if="${pagination.page > 1}" class="page-item">
+	                                                                            <a th:if="${selectedStatus == null}" class="page-link" th:href="@{/reports/users(page=${pagination.page - 1}, limit=${pagination.limit})}">
+	                                                                                &laquo; Précédent
+	                                                                            </a>
+																				<a th:if="${selectedStatus != null}" class="page-link" th:href="@{/reports/users(page=${pagination.page - 1}, limit=${pagination.limit}, statut=${selectedStatus})}">
+	                                                                                &laquo; Précédent
+	                                                                            </a>
+	                                                                        </li>
+	                                                                        <li class="page-item disabled">
+	                                                                            <span class="page-link">
+	                                                                                Page <span th:text="${pagination.page}"></span> sur <span th:text="${pagination.totalPages}"></span>
+	                                                                            </span>
+	                                                                        </li>
+	                                                                        <li th:if="${pagination.page < pagination.totalPages}" class="page-item">
+	                                                                            <a th:if="${selectedStatus == null}" class="page-link" th:href="@{/reports/users(page=${pagination.page + 1}, limit=${pagination.limit})}">
+	                                                                                Suivant &raquo;
+	                                                                            </a>
+																				<a th:if="${selectedStatus != null}" class="page-link" th:href="@{/reports/users(page=${pagination.page + 1}, limit=${pagination.limit}, statut=${selectedStatus})}">
+	                                                                                Suivant &raquo;
+	                                                                            </a>
+	                                                                        </li>
+	                                                                    </ul>
+	                                                                </div>
                                                                 </div>
                                                             </div>
                                                         </div>

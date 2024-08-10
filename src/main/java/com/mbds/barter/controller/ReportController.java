@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.mbds.barter.exception.InvalidTokenException;
 import com.mbds.barter.model.Category;
 import com.mbds.barter.model.Report;
+import com.mbds.barter.response.PaginatedResponse;
 import com.mbds.barter.service.ReportService;
 
 import jakarta.servlet.http.HttpSession;
@@ -22,10 +23,11 @@ public class ReportController {
     private ReportService reportService;
 	
 	@GetMapping("/reports/users")
-    public String getUsersReports(Model model, HttpSession session, @RequestParam(value = "statut", required = false) String statut) {
+    public String getUsersReports(@RequestParam(defaultValue = "1") int page, @RequestParam(defaultValue = "10") int limit,Model model, HttpSession session, @RequestParam(value = "statut", required = false) String statut) {
         try {
-            List<Report> reports = reportService.getAllUsersReports(session, statut);
-            model.addAttribute("reports", reports);
+        	PaginatedResponse<Report> reports = reportService.getAllUsersReports(session, statut, page, limit);
+            model.addAttribute("reports", reports.getData());
+            model.addAttribute("pagination", reports.getMeta());
             model.addAttribute("selectedStatus", statut);
             return "reports/reports-user";
         } catch (InvalidTokenException e) {
@@ -36,10 +38,11 @@ public class ReportController {
     }
 	
 	@GetMapping("/reports/objects")
-    public String getObjectsReports(Model model, HttpSession session, @RequestParam(value = "statut", required = false) String statut) {
+    public String getObjectsReports(@RequestParam(defaultValue = "1") int page, @RequestParam(defaultValue = "10") int limit, Model model, HttpSession session, @RequestParam(value = "statut", required = false) String statut) {
         try {
-            List<Report> reports = reportService.getAllObjectsReports(session, statut);
-            model.addAttribute("reports", reports);
+        	PaginatedResponse<Report> reports = reportService.getAllObjectsReports(session, statut, page, limit);
+            model.addAttribute("reports", reports.getData());
+            model.addAttribute("pagination", reports.getMeta());
             model.addAttribute("selectedStatus", statut);
             return "reports/reports-object";
         } catch (InvalidTokenException e) {
