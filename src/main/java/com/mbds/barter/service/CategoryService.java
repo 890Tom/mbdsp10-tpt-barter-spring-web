@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -19,6 +20,7 @@ import com.mbds.barter.exception.InternalServerException;
 import com.mbds.barter.exception.InvalidTokenException;
 import com.mbds.barter.model.Category;
 import com.mbds.barter.response.AuthResponse;
+import com.mbds.barter.response.PaginatedResponse;
 
 import jakarta.servlet.http.HttpSession;
 
@@ -30,7 +32,7 @@ public class CategoryService {
 	
 	String path = "http://localhost:3000/api/categories/";
 	
-	public List<Category> getAllCategory(HttpSession session){
+	public PaginatedResponse<Category> getAllCategory(HttpSession session, int page, int limit){
 		AuthResponse authResponse = (AuthResponse) session.getAttribute("authResponse");
 	
 		if(authResponse == null) {
@@ -42,15 +44,17 @@ public class CategoryService {
             headers.set("x-auth-token", authResponse.getToken());
             headers.set("Content-Type", "application/json");
             HttpEntity<String> entity = new HttpEntity<>(headers);
+            
+            String pathWithPagination = String.format("%sadmin/?page=%d&limit=%d", path, page, limit);
 
-            ResponseEntity<Category[]> response = restTemplate.exchange(
-            	path,
+            ResponseEntity<PaginatedResponse<Category>> response = restTemplate.exchange(
+            	pathWithPagination,
                 HttpMethod.GET,
                 entity,
-                Category[].class
+                new ParameterizedTypeReference<PaginatedResponse<Category>>() {}
             );
 
-            return Arrays.asList(response.getBody());
+            return response.getBody();
         } catch (HttpClientErrorException.Unauthorized e) {
             throw new InvalidTokenException("Invalid token provided.");
         } catch (HttpClientErrorException e) {
