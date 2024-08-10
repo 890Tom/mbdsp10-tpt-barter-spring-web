@@ -30,6 +30,8 @@ public class UserService {
 	
 	String path = "http://localhost:3000/api/users/";
 	
+	String pathCreate = "http://localhost:3000/api/auth/register/";
+	
 	public List<User> getAllUser(HttpSession session){
 		AuthResponse authResponse = (AuthResponse) session.getAttribute("authResponse");
 	
@@ -150,5 +152,38 @@ public class UserService {
 	    }
 	}
 	
-	
+	public User addUser(HttpSession session, User newUser) {
+	    AuthResponse authResponse = (AuthResponse) session.getAttribute("authResponse");
+
+	    if (authResponse == null) {
+	        throw new InvalidTokenException("You are not logged in. Please log in first.");
+	    }
+
+	    try {
+	        HttpHeaders headers = new HttpHeaders();
+	        headers.set("x-auth-token", authResponse.getToken());
+	        headers.set("Content-Type", "application/json");
+	        HttpEntity<User> entity = new HttpEntity<>(newUser, headers);
+
+	        ResponseEntity<User> response = restTemplate.exchange(
+	        	pathCreate,
+	            HttpMethod.POST,
+	            entity,
+	            User.class
+	        );
+
+	        return response.getBody();
+	    } catch (HttpClientErrorException.Unauthorized e) {
+	        throw new InvalidTokenException("Invalid token provided.");
+	    } catch (HttpClientErrorException e) {
+	        if (e.getStatusCode() == HttpStatus.BAD_REQUEST) {
+	            throw new BadRequestException("Invalid request");
+	        }
+	        throw new InternalServerException("An error occurred while processing the request");
+	    } catch (HttpServerErrorException e) {
+	        throw new InternalServerException("Internal server error, please try again later");
+	    } catch (Exception e) {
+	        throw new InternalServerException("An unexpected error occurred");
+	    }
+	}
 }

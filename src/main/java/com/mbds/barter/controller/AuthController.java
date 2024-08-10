@@ -33,6 +33,7 @@ public class AuthController {
 		try {
 			AuthResponse authResponse = authService.login(authRequest);
 			session.setAttribute("authResponse", authResponse);
+			System.out.println(authResponse.getToken());
 			return "redirect:/categories";
 		}catch(BadRequestException | InternalServerException e) {
 			model.addAttribute("error", e.getMessage());
