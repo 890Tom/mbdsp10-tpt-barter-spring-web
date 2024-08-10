@@ -18,14 +18,27 @@ public class ReportController {
 	@Autowired
     private ReportService reportService;
 	
-	@GetMapping("/reports")
-    public String getReports(Model model, HttpSession session) {
+	@GetMapping("/reports/users")
+    public String getUsersReports(Model model, HttpSession session) {
         try {
-        	
-            List<Report> reports = reportService.getAllReports(session);
+            List<Report> reports = reportService.getAllUsersReports(session);
             model.addAttribute("reports", reports);
             System.out.println(reports.get(0).getUserMakeReport());
-            return "reports/reports";
+            return "reports/reports-user";
+        } catch (InvalidTokenException e) {
+            model.addAttribute("error", e.getMessage());
+            System.out.println(e.getMessage());
+            return "redirect:/login"; 
+        } 
+    }
+	
+	@GetMapping("/reports/objects")
+    public String getObjectsReports(Model model, HttpSession session) {
+        try {
+            List<Report> reports = reportService.getAllObjectsReports(session);
+            model.addAttribute("reports", reports);
+            System.out.println(reports.get(0).getUserMakeReport());
+            return "reports/reports-object";
         } catch (InvalidTokenException e) {
             model.addAttribute("error", e.getMessage());
             System.out.println(e.getMessage());

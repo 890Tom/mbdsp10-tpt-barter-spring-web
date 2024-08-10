@@ -29,7 +29,7 @@ public class ReportService {
 	
 	String path = "http://localhost:3000/api/reports/";
 	
-	public List<Report> getAllReports(HttpSession session) {
+	public List<Report> getAllUsersReports(HttpSession session) {
 	    AuthResponse authResponse = (AuthResponse) session.getAttribute("authResponse");
 
 	    if (authResponse == null) {
@@ -42,7 +42,44 @@ public class ReportService {
 	        headers.set("Content-Type", "application/json");
 	        HttpEntity<String> entity = new HttpEntity<>(headers);
 
-	        String reportsPath = path; 
+	        String reportsPath = path + "?type=user"; 
+
+	        ResponseEntity<Report[]> response = restTemplate.exchange(
+	            reportsPath,
+	            HttpMethod.GET,
+	            entity,
+	            Report[].class
+	        );
+
+	        return Arrays.asList(response.getBody());
+	    } catch (HttpClientErrorException.Unauthorized e) {
+	        throw new InvalidTokenException("Invalid token provided.");
+	    } catch (HttpClientErrorException e) {
+	        if (e.getStatusCode() == HttpStatus.BAD_REQUEST) {
+	            throw new BadRequestException("Invalid request");
+	        }
+	        throw new InternalServerException("An error occurred while processing the request");
+	    } catch (HttpServerErrorException e) {
+	        throw new InternalServerException("Internal server error, please try again later");
+	    } catch (Exception e) {
+	        throw new InternalServerException("An unexpected error occurred");
+	    }
+	}
+	
+	public List<Report> getAllObjectsReports(HttpSession session) {
+	    AuthResponse authResponse = (AuthResponse) session.getAttribute("authResponse");
+
+	    if (authResponse == null) {
+	        throw new InvalidTokenException("You are not logged in. Please log in first.");
+	    }
+
+	    try {
+	        HttpHeaders headers = new HttpHeaders();
+	        headers.set("x-auth-token", authResponse.getToken());
+	        headers.set("Content-Type", "application/json");
+	        HttpEntity<String> entity = new HttpEntity<>(headers);
+
+	        String reportsPath = path + "?type=post"; 
 
 	        ResponseEntity<Report[]> response = restTemplate.exchange(
 	            reportsPath,
