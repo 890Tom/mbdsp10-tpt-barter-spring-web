@@ -34,7 +34,7 @@ public class AuthController {
 			AuthResponse authResponse = authService.login(authRequest);
 			session.setAttribute("authResponse", authResponse);
 			System.out.println(authResponse.getToken());
-			return "redirect:/categories";
+			return "redirect:/";
 		}catch(BadRequestException | InternalServerException e) {
 			model.addAttribute("error", e.getMessage());
 			System.out.println(e.getMessage());
