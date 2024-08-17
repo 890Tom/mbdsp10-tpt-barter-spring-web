@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -31,7 +32,14 @@ public class CategoryService {
 	@Autowired
     private RestTemplate restTemplate;
 	
-	String path = "http://localhost:3000/api/categories/";
+	
+	
+	@Value("${barter.backend.url}")
+	private String baseUrl;
+	
+	private String getCategoriesPath() {
+        return baseUrl + "categories/";
+    }
 	
 	public PaginatedResponse<Category> getAllCategory(HttpSession session, int page, int limit,String title){
 		AuthResponse authResponse = (AuthResponse) session.getAttribute("authResponse");
@@ -46,7 +54,7 @@ public class CategoryService {
             headers.set("Content-Type", "application/json");
             HttpEntity<String> entity = new HttpEntity<>(headers);
             
-            String pathWithPagination = String.format("%sadmin/?page=%d&limit=%d", path, page, limit);
+            String pathWithPagination = String.format("%sadmin/?page=%d&limit=%d", this.getCategoriesPath(), page, limit);
             if (title != null && !title.isEmpty()) {
                 pathWithPagination += "&title=" + URLEncoder.encode(title, "UTF-8");
             }
@@ -87,7 +95,7 @@ public class CategoryService {
 	        HttpEntity<String> entity = new HttpEntity<>(headers);
 
 	        // Construire l'URL avec l'ID de la catégorie
-	        String url = String.format("%s/%d", path, categoryId);
+	        String url = String.format("%s/%d", this.getCategoriesPath(), categoryId);
 
 	        // Effectuer la requête GET pour obtenir une seule catégorie
 	        ResponseEntity<Category> response = restTemplate.exchange(
@@ -127,7 +135,7 @@ public class CategoryService {
 
 	        // Effectuer la requête POST pour ajouter une nouvelle catégorie
 	        ResponseEntity<Category> response = restTemplate.exchange(
-	            path, // Assurez-vous que le path est l'URL de l'endpoint POST pour ajouter une catégorie
+	        		this.getCategoriesPath(), // Assurez-vous que le path est l'URL de l'endpoint POST pour ajouter une catégorie
 	            HttpMethod.POST,
 	            entity,
 	            Category.class
@@ -163,7 +171,7 @@ public class CategoryService {
 	        HttpEntity<Void> entity = new HttpEntity<>(headers);
 
 	        // Construire l'URL avec l'ID de la catégorie à supprimer
-	        String url = path + "/" + categoryId;
+	        String url = this.getCategoriesPath() + categoryId;
 
 	        // Effectuer la requête DELETE pour supprimer la catégorie
 	        restTemplate.exchange(
@@ -201,7 +209,7 @@ public class CategoryService {
 	        HttpEntity<Category> entity = new HttpEntity<>(updatedCategory, headers);
 
 	        // Construire l'URL avec l'ID de la catégorie à mettre à jour
-	        String url = path + "/" + categoryId;
+	        String url = this.getCategoriesPath() + categoryId;
 
 	        // Effectuer la requête PUT pour mettre à jour la catégorie
 	        ResponseEntity<Category> response = restTemplate.exchange(

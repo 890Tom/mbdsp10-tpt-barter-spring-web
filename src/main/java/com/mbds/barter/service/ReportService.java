@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -30,7 +31,13 @@ public class ReportService {
 	@Autowired
     private RestTemplate restTemplate;
 	
-	String path = "http://localhost:3000/api/reports/";
+	
+	@Value("${barter.backend.url}")
+	private String baseUrl;
+	
+	private String getReportsPath() {
+        return baseUrl + "reports/";
+    }
 	
 	public PaginatedResponse<Report> getAllUsersReports(HttpSession session, String statut, int page, int limit) {
 	    AuthResponse authResponse = (AuthResponse) session.getAttribute("authResponse");
@@ -45,7 +52,7 @@ public class ReportService {
 	        headers.set("Content-Type", "application/json");
 	        HttpEntity<String> entity = new HttpEntity<>(headers);
 
-	        StringBuilder reportsPath = new StringBuilder(path).append("admin/?type=user");
+	        StringBuilder reportsPath = new StringBuilder(this.getReportsPath()).append("admin/?type=user");
 	        
 	        if (statut != null && !statut.isEmpty()) {
 	            reportsPath.append("&statut=").append(statut);
@@ -89,7 +96,7 @@ public class ReportService {
 	        headers.set("Content-Type", "application/json");
 	        HttpEntity<String> entity = new HttpEntity<>(headers);
 
-	        StringBuilder reportsPath = new StringBuilder(path).append("admin/?type=post");
+	        StringBuilder reportsPath = new StringBuilder(this.getReportsPath()).append("admin/?type=post");
 	        
 	        if (statut != null && !statut.isEmpty()) {
 	            reportsPath.append("&statut=").append(statut);
@@ -132,7 +139,7 @@ public class ReportService {
 	        HttpEntity<String> entity = new HttpEntity<>(headers);
 
 	        // Construire l'URL avec l'ID du report
-	        String url = String.format("%s/%s", path, reportId);
+	        String url = String.format("%s/%s", this.getReportsPath(), reportId);
 
 	        // Effectuer la requête GET pour obtenir une seule report
 	        ResponseEntity<Report> response = restTemplate.exchange(
@@ -175,7 +182,7 @@ public class ReportService {
 	        HttpEntity<Report> entity = new HttpEntity<>(updatedReport, headers);
 
 	        // Construire l'URL avec l'ID du signalement à mettre à jour
-	        String url = path + "/" + reportId;
+	        String url = this.getReportsPath() + reportId;
 
 	        // Effectuer la requête PUT pour mettre à jour le signalement
 	        ResponseEntity<Report> response = restTemplate.exchange(
@@ -219,7 +226,7 @@ public class ReportService {
 	        HttpEntity<Report> entity = new HttpEntity<>(updatedReport, headers);
 
 	        // Construire l'URL avec l'ID du signalement à mettre à jour
-	        String url = path + "/" + reportId;
+	        String url = this.getReportsPath() + reportId;
 
 	        // Effectuer la requête PUT pour mettre à jour le signalement
 	        ResponseEntity<Report> response = restTemplate.exchange(

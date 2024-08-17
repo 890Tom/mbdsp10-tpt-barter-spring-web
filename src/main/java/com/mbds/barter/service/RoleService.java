@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -28,7 +29,12 @@ public class RoleService {
 	@Autowired
     private RestTemplate restTemplate;
 	
-	String path = "http://localhost:3000/api/roles/";
+	@Value("${barter.backend.url}")
+	private String baseUrl;
+	
+	private String getRolesPath() {
+        return baseUrl + "roles/";
+    }
 	
 	public List<Role> getAllRole(HttpSession session){
 		AuthResponse authResponse = (AuthResponse) session.getAttribute("authResponse");
@@ -44,7 +50,7 @@ public class RoleService {
             HttpEntity<String> entity = new HttpEntity<>(headers);
 
             ResponseEntity<Role[]> response = restTemplate.exchange(
-            	path,
+            	this.getRolesPath(),
                 HttpMethod.GET,
                 entity,
                 Role[].class

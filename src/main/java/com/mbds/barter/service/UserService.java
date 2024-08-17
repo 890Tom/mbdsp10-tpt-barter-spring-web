@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -31,9 +32,17 @@ public class UserService {
 	@Autowired
     private RestTemplate restTemplate;
 	
-	String path = "http://localhost:3000/api/users/";
 	
-	String pathCreate = "http://localhost:3000/api/auth/register/";
+	@Value("${barter.backend.url}")
+	private String baseUrl;
+	
+	private String getUserPath() {
+        return baseUrl + "users/";
+    }
+	
+	private String getUserPathCreate() {
+        return baseUrl + "auth/register/";
+    }
 	
 	public PaginatedResponse<User> getAllUser(HttpSession session, int page, int limit, String email, Integer roleId){
 		AuthResponse authResponse = (AuthResponse) session.getAttribute("authResponse");
@@ -48,7 +57,7 @@ public class UserService {
             headers.set("Content-Type", "application/json");
             HttpEntity<String> entity = new HttpEntity<>(headers);
             
-            String pathWithPagination = String.format("%sadmin/?page=%d&limit=%d", path, page, limit);
+            String pathWithPagination = String.format("%sadmin/?page=%d&limit=%d", this.getUserPath(), page, limit);
             if (email != null && !email.isEmpty()) {
                 pathWithPagination += "&email=" + URLEncoder.encode(email, "UTF-8");
             }
@@ -90,7 +99,7 @@ public class UserService {
 	        HttpEntity<String> entity = new HttpEntity<>(headers);
 
 	        // Construire l'URL avec l'ID de l'user
-	        String url = String.format("%s/%d", path, userId);
+	        String url = String.format("%s/%d", this.getUserPath(), userId);
 
 	        // Effectuer la requête GET pour obtenir un user
 	        ResponseEntity<User> response = restTemplate.exchange(
@@ -139,7 +148,7 @@ public class UserService {
 	        HttpEntity<Void> entity = new HttpEntity<>(headers);
 
 	        // Construire l'URL avec l'ID de l'user à supprimer
-	        String url = path + "/" + userId;
+	        String url = this.getUserPath() + userId;
 
 	        // Effectuer la requête DELETE pour supprimer l'user
 	        restTemplate.exchange(
@@ -176,7 +185,7 @@ public class UserService {
 	        HttpEntity<User> entity = new HttpEntity<>(newUser, headers);
 
 	        ResponseEntity<User> response = restTemplate.exchange(
-	        	pathCreate,
+	        	this.getUserPathCreate(),
 	            HttpMethod.POST,
 	            entity,
 	            User.class
@@ -211,7 +220,7 @@ public class UserService {
 	        HttpEntity<User> entity = new HttpEntity<>(updatedUser, headers);
 
 	        // Construire l'URL avec l'ID de la catégorie à mettre à jour
-	        String url = path + "/" + userId;
+	        String url = this.getUserPath() + userId;
 
 	        // Effectuer la requête PUT pour mettre à jour la catégorie
 	        ResponseEntity<User> response = restTemplate.exchange(

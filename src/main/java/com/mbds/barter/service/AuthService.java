@@ -1,6 +1,7 @@
 package com.mbds.barter.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -23,10 +24,17 @@ public class AuthService {
 	@Autowired
     private RestTemplate restTemplate;
 	
-	String path = "http://localhost:3000/api/auth/";
+	@Value("${barter.backend.url}")
+	private String baseUrl;
+	
+	private String getAuthPath() {
+        return baseUrl + "auth/";
+    }
+	
 	
 	public AuthResponse login(AuthRequest authRequest) {
-		String endPoint = path + "login/";
+		String endPoint = this.getAuthPath() + "login/";
+		System.out.println(endPoint);
 		
 		HttpHeaders headers = new HttpHeaders();
 		headers.set("Content-Type", "application/json");

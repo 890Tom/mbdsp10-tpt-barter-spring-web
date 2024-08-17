@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -32,7 +33,12 @@ public class DashboardService {
 	@Autowired
     private RestTemplate restTemplate;
 	
-	String path = "http://localhost:3000/api/dashboard/";
+	@Value("${barter.backend.url}")
+	private String baseUrl;
+	
+	private String getDashboardPath() {
+        return baseUrl + "dashboard/";
+    }
 	
 	public CountDashboardInsight getInsights(HttpSession session) {
 		AuthResponse authResponse = (AuthResponse) session.getAttribute("authResponse");
@@ -48,7 +54,7 @@ public class DashboardService {
             HttpEntity<String> entity = new HttpEntity<>(headers);
 
             ResponseEntity<CountDashboardInsight> response = restTemplate.exchange(
-            	path + "count-insights",
+this.getDashboardPath() + "count-insights",
                 HttpMethod.GET,
                 entity,
                 CountDashboardInsight.class
@@ -83,7 +89,7 @@ public class DashboardService {
             HttpEntity<String> entity = new HttpEntity<>(headers);
 
             ResponseEntity<DateCountInsight[]> response = restTemplate.exchange(
-            	path + "14-days-reports/",
+            		this.getDashboardPath()  + "14-days-reports/",
                 HttpMethod.GET,
                 entity,
                 DateCountInsight[].class
@@ -118,7 +124,7 @@ public class DashboardService {
             HttpEntity<String> entity = new HttpEntity<>(headers);
 
             ResponseEntity<DateCountInsight[]> response = restTemplate.exchange(
-            	path + "14-days-declined-reports/",
+            		this.getDashboardPath()  + "14-days-declined-reports/",
                 HttpMethod.GET,
                 entity,
                 DateCountInsight[].class
