@@ -13,6 +13,7 @@ import org.springframework.web.client.RestTemplate;
 
 import com.mbds.barter.exception.BadRequestException;
 import com.mbds.barter.exception.InternalServerException;
+import com.mbds.barter.model.User;
 import com.mbds.barter.request.AuthRequest;
 import com.mbds.barter.response.AuthResponse;
 
@@ -33,9 +34,16 @@ public class AuthService {
 		
 		try {
 			ResponseEntity<AuthResponse> response = restTemplate.exchange(endPoint, HttpMethod.POST, request, AuthResponse.class);
-			return response.getBody();
+			if(this.isAdmin(response.getBody().getUser())) {
+				return response.getBody();
+			}else {
+				throw new BadRequestException("Invalid email or password");
+			}
 		} catch (HttpClientErrorException e) {
-            if (e.getStatusCode() == HttpStatus.BAD_REQUEST) {
+            if (e.getStatusCode() == HttpStatus.BAD_REQUEST ) {
+                throw new BadRequestException("Invalid email or password");
+            }
+            if (e.getStatusCode() == HttpStatus.UNAUTHORIZED ) {
                 throw new BadRequestException("Invalid email or password");
             }
             throw new InternalServerException("An error occurred while processing the request");
@@ -45,5 +53,9 @@ public class AuthService {
             throw new InternalServerException("An unexpected error occurred");
         }
 		
+	}
+	
+	public boolean isAdmin(User user) {
+		return user.getRoleId() == 1;
 	}
 }

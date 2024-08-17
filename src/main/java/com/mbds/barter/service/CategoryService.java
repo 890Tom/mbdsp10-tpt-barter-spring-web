@@ -1,5 +1,6 @@
 package com.mbds.barter.service;
 
+import java.net.URLEncoder;
 import java.util.Arrays;
 import java.util.List;
 
@@ -32,7 +33,7 @@ public class CategoryService {
 	
 	String path = "http://localhost:3000/api/categories/";
 	
-	public PaginatedResponse<Category> getAllCategory(HttpSession session, int page, int limit){
+	public PaginatedResponse<Category> getAllCategory(HttpSession session, int page, int limit,String title){
 		AuthResponse authResponse = (AuthResponse) session.getAttribute("authResponse");
 	
 		if(authResponse == null) {
@@ -46,6 +47,9 @@ public class CategoryService {
             HttpEntity<String> entity = new HttpEntity<>(headers);
             
             String pathWithPagination = String.format("%sadmin/?page=%d&limit=%d", path, page, limit);
+            if (title != null && !title.isEmpty()) {
+                pathWithPagination += "&title=" + URLEncoder.encode(title, "UTF-8");
+            }
 
             ResponseEntity<PaginatedResponse<Category>> response = restTemplate.exchange(
             	pathWithPagination,

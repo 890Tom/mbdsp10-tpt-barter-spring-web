@@ -5,6 +5,8 @@ public class CountDashboardInsight {
 	int accepted;
 	int rejected;
 	int usersCount;
+	int dailyExchange;
+	int failedExchange;
 	
 	public int getPending() {
 		return pending;
@@ -29,6 +31,18 @@ public class CountDashboardInsight {
 	}
 	public void setUsersCount(int usersCount) {
 		this.usersCount = usersCount;
+	}
+	public int getDailyExchange() {
+		return dailyExchange;
+	}
+	public void setDailyExchange(int dailyExchange) {
+		this.dailyExchange = dailyExchange;
+	}
+	public int getFailedExchange() {
+		return failedExchange;
+	}
+	public void setFailedExchange(int failedExchange) {
+		this.failedExchange = failedExchange;
 	}
 	
 	

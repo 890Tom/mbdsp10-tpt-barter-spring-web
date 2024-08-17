@@ -72,6 +72,31 @@
                                                                         </a>
                                                                     </div>
                                                                 </div>
+																<form class="forms-sample" method="GET" th:action="@{/users}">
+			                                                        <div class="row">
+			                                                            <div class="col-md-5">
+			                                                                <div class="form-group">
+			                                                                    <label for="exampleInputUsername1" >Email / Name / Username</label>
+			                                                                    <input class="form-control custom-input" th:value="${email}" name="email" placeholder="search by email or name or username" aria-label="Title">
+			                                                                  </div>
+			                                                            </div>
+																		<div class="col-md-5">
+			                                                                <div class="form-group">
+																				<label for="exampleInputUsername1" >Role</label>
+																				<select class="form-control" id="role" name="roleId">
+																					<option value="">Select Role</option>
+																                    <option th:each="role : ${roles}" th:value="${role.id}" th:text="${role.title}" th:selected="${roleId == role.id}"></option>
+																                </select>
+																			</div>
+			                                                            </div>
+			                                                            <div class="col-md-2">
+			                                                                <div class="form-group">
+			                                                                    <label for="exampleInputUsername1"><span>#</span> </label>
+			                                                                    <input type="submit" class="form-control btn-bleu-clair" value="Filtrer"/>
+			                                                                  </div>
+			                                                            </div>
+			                                                          </div>
+			                                                    </form>
 																
                                                                 <div class="table-responsive  mt-1">
                                                                     <table
@@ -92,7 +117,7 @@
                                                                                 <td class="action">
                                                                                     <a th:href="@{/users/detail/{id}(id=${user.id})}"><i
                                                                                             class="mdi mdi-eye view"></i></a>
-																					<a href="#"><i
+																					<a th:href="@{/users/update/{id}(id=${user.id})}"><i
 																					        class="mdi mdi-pencil view"></i></a>
                                                                                     <a th:href="@{/users/delete/{id}(id=${user.id})}"><i
                                                                                             class="mdi mdi-delete delete"></i></a>
@@ -104,7 +129,7 @@
 	                                                                <div class="pagination mt-3">
 	                                                                    <ul class="pagination">
 	                                                                        <li th:if="${pagination.page > 1}" class="page-item">
-	                                                                            <a class="page-link" th:href="@{/users(page=${pagination.page - 1}, limit=${pagination.limit})}">
+	                                                                            <a class="page-link" th:href="@{/users(page=${pagination.page - 1}, limit=${pagination.limit}, email=${email})}">
 	                                                                                &laquo; Précédent
 	                                                                            </a>
 	                                                                        </li>
@@ -114,7 +139,7 @@
 	                                                                            </span>
 	                                                                        </li>
 	                                                                        <li th:if="${pagination.page < pagination.totalPages}" class="page-item">
-	                                                                            <a class="page-link" th:href="@{/users(page=${pagination.page + 1}, limit=${pagination.limit})}">
+	                                                                            <a class="page-link" th:href="@{/users(page=${pagination.page + 1}, limit=${pagination.limit}, email=${email})}">
 	                                                                                Suivant &raquo;
 	                                                                            </a>
 	                                                                        </li>

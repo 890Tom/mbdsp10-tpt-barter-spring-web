@@ -43,11 +43,9 @@
                       <input type="password" class="form-control form-control-lg radius" id="exampleInputPassword1" name="password" th:field="*{password}" placeholder="Password">
                     </div>
 
-                    <!-- {% if error %}
-                        <div class="alert alert-danger error">
-                            <h5>Vérifier vos identifiants</h5>
-                        </div>
-                    {% endif %} -->
+					<div th:if="${error != null}" class="alert alert-danger error">
+				        <h5 th:text="${error}">An error occurred</h5>
+				    </div>
                     <div class="my-2 d-flex justify-content-between">
                       <a href="{% url 'confirm-email' %}" class="auth-link text-black">Forgot password?</a>
                     </div>

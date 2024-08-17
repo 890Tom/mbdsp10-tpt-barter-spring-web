@@ -91,7 +91,15 @@
                                             <label for="exampleInputUsername2"
                                                 class="col-sm-2 col-form-label">Statut</label>
                                             <div class="col-sm-9">
-												<span th:text="${report.statut}"></span>
+												<button th:if="${report.statut == 'accepted'}" th:text="${report.statut}"
+									                    class="btn btn-success">
+									            </button>
+												<button th:if="${report.statut == 'rejected'}" th:text="${report.statut}"
+									                    class="btn btn-danger">
+									            </button>
+												<button th:if="${report.statut == 'pending'}" th:text="${report.statut}"
+									                    class="btn btn-warning">
+									            </button>
                                             </div>
                                         </div>
 										<div th:if="${report.statut == 'pending'}">

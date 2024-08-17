@@ -59,6 +59,15 @@
                                                 <input type="text" class="form-control" id="title" th:field="*{title}" placeholder="Ustensile de cuisine" required>
                                             </div>
                                         </div>
+										<div th:if="${error != null}" class="form-group row">
+											<label for="exampleInputUsername2"
+                                                class="col-sm-2 col-form-label"></label>
+                                            <div class="col-sm-9 ">
+												<div class="alert alert-danger error">
+													<h5 th:text="${error}">An error occurred</h5>
+												</div>
+                                            </div>
+										</div>
                                         <button type="submit" class="btn btn-primary me-2">Ajouter</button>
                                         <button type="reset" class="btn btn-light">Annuler</button>
                                     </form>

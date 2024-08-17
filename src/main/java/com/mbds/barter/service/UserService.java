@@ -1,5 +1,6 @@
 package com.mbds.barter.service;
 
+import java.net.URLEncoder;
 import java.util.Arrays;
 import java.util.List;
 
@@ -34,7 +35,7 @@ public class UserService {
 	
 	String pathCreate = "http://localhost:3000/api/auth/register/";
 	
-	public PaginatedResponse<User> getAllUser(HttpSession session, int page, int limit){
+	public PaginatedResponse<User> getAllUser(HttpSession session, int page, int limit, String email, Integer roleId){
 		AuthResponse authResponse = (AuthResponse) session.getAttribute("authResponse");
 	
 		if(authResponse == null) {
@@ -48,7 +49,12 @@ public class UserService {
             HttpEntity<String> entity = new HttpEntity<>(headers);
             
             String pathWithPagination = String.format("%sadmin/?page=%d&limit=%d", path, page, limit);
-
+            if (email != null && !email.isEmpty()) {
+                pathWithPagination += "&email=" + URLEncoder.encode(email, "UTF-8");
+            }
+            if (roleId != null) {
+                pathWithPagination += "&roleId=" + roleId;
+            }
             ResponseEntity<PaginatedResponse<User>> response = restTemplate.exchange(
             	pathWithPagination,
                 HttpMethod.GET,
@@ -182,6 +188,47 @@ public class UserService {
 	    } catch (HttpClientErrorException e) {
 	        if (e.getStatusCode() == HttpStatus.BAD_REQUEST) {
 	            throw new BadRequestException("Invalid request");
+	        }
+	        throw new InternalServerException("An error occurred while processing the request");
+	    } catch (HttpServerErrorException e) {
+	        throw new InternalServerException("Internal server error, please try again later");
+	    } catch (Exception e) {
+	        throw new InternalServerException("An unexpected error occurred");
+	    }
+	}
+	
+	public User updateUser(HttpSession session, int userId, User updatedUser) {
+		AuthResponse authResponse = (AuthResponse) session.getAttribute("authResponse");
+
+	    if (authResponse == null) {
+	        throw new InvalidTokenException("You are not logged in. Please log in first.");
+	    }
+	    
+	    try {
+	        HttpHeaders headers = new HttpHeaders();
+	        headers.set("x-auth-token", authResponse.getToken());
+	        headers.set("Content-Type", "application/json");
+	        HttpEntity<User> entity = new HttpEntity<>(updatedUser, headers);
+
+	        // Construire l'URL avec l'ID de la catégorie à mettre à jour
+	        String url = path + "/" + userId;
+
+	        // Effectuer la requête PUT pour mettre à jour la catégorie
+	        ResponseEntity<User> response = restTemplate.exchange(
+	            url,
+	            HttpMethod.PUT,
+	            entity,
+	            User.class
+	        );
+	        
+	        return response.getBody();
+	    } catch (HttpClientErrorException.Unauthorized e) {
+	        throw new InvalidTokenException("Invalid token provided.");
+	    } catch (HttpClientErrorException e) {
+	        if (e.getStatusCode() == HttpStatus.BAD_REQUEST) {
+	            throw new BadRequestException("Invalid data provided");
+	        } else if (e.getStatusCode() == HttpStatus.NOT_FOUND) {
+	            throw new InternalServerException("User not found");
 	        }
 	        throw new InternalServerException("An error occurred while processing the request");
 	    } catch (HttpServerErrorException e) {

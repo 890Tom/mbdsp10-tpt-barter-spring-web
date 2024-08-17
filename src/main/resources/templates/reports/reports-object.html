@@ -98,12 +98,20 @@
                                                                             <tr th:each="report : ${reports}">
                                                                                 <td th:text="${report.userMakeReport.username}"></td>
 																				<td th:text="${report.objetReport.nom}"></td>
-																				<td th:text="${report.statut}"></td>
+																				<td>		 
+																					<button th:if="${report.statut == 'accepted'}" th:text="${report.statut}"
+																		                    class="btn btn-success">
+																		            </button>
+																					<button th:if="${report.statut == 'rejected'}" th:text="${report.statut}"
+																		                    class="btn btn-danger">
+																		            </button>
+																					<button th:if="${report.statut == 'pending'}" th:text="${report.statut}"
+																		                    class="btn btn-warning">
+																		            </button>
+																				</td>
 																				<td class="action">
                                                                                    <a th:href="@{/reports/detail/{id}(id=${report.id})}"><i class="mdi mdi-eye view"></i></a>
                                                                                 </td>
-																				
-																				
                                                                             </tr>
                                                                         </tbody>
                                                                     </table>

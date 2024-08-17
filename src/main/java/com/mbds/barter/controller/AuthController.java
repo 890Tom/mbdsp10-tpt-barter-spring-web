@@ -33,11 +33,9 @@ public class AuthController {
 		try {
 			AuthResponse authResponse = authService.login(authRequest);
 			session.setAttribute("authResponse", authResponse);
-			System.out.println(authResponse.getToken());
 			return "redirect:/";
 		}catch(BadRequestException | InternalServerException e) {
 			model.addAttribute("error", e.getMessage());
-			System.out.println(e.getMessage());
 			return "login";
 		}
 		
@@ -47,5 +45,10 @@ public class AuthController {
     public String logout(HttpSession session) {
         session.invalidate();  // Invalidate the session to log out the user
         return "redirect:/login";  // Redirect to the login page
+    }
+	
+	@GetMapping("/error")
+    public String error(HttpSession session) {
+        return "error/500";  // Redirect to the login page
     }
 }
