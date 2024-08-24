@@ -9,6 +9,9 @@ COPY mvnw .
 COPY .mvn .mvn
 COPY pom.xml .
 
+# Make the Maven wrapper executable
+RUN chmod +x mvnw
+
 # Run the Maven build for dependencies
 RUN ./mvnw dependency:resolve
 
